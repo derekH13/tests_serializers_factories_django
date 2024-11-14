@@ -10,9 +10,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     username = factory.Faker('user_name')
     email = factory.Faker('email')
 
-
     class Meta:
         model = User
+
 
 class OrderFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)

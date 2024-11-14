@@ -23,6 +23,7 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
+        # remove o campo categoria_id do dicionario
         category_data = validated_data.pop("category_id")
 
         product = Product.objects.create(**validated_data)

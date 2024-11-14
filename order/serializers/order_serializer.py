@@ -4,20 +4,24 @@ from order.models import Order
 from product.models import Product
 from product.serializers.product_serializer import ProductSerializer
 
+
 class OrderSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True, many=True)
+    # isso é um lazy valuate, o django não carrega todos os dados ele só traz uma referencia
     product_id = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), write_only=True, many=True
     )
     total = serializers.SerializerMethodField()
 
+    # fazer a soma do total dos preços
     def get_total(self, instance):
         total = sum([product.price for product in instance.product.all()])
         return total
 
     class Meta:
-        model = Order
         fields = ["product", "total", "product_id", "user"]
+        model = Order
+        # deixando o campo produto sem ser obragatorio
         extra_kwargs = {"product": {"required": False}}
 
     def create(self, validated_data):
