@@ -40,13 +40,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_extensions",
-    "rest_framework",
+    "django_extensions",  # apartir daqui foi adicionado
     "product",
+    "rest_framework",
     "order",
-    "debug_toolbar",
+    "debug_toolbar",  # adicionado
     "rest_framework.authtoken",
 ]
+# rota entre url e viewset
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -144,25 +145,27 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # REST Framework settings
 REST_FRAMEWORK = {
-'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-'PAGE_SIZE': 10,
-'DEFAULT_AUTHENTICATION_CLASSES': [
-'rest_framework.authentication.BasicAuthentication',
-'rest_framework.authentication.SessionAuthentication',
-'rest_framework.authentication.TokenAuthentication',
-],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
+# aonde vai ser executado
 # Debug toolbar settings
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-#SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 
-#DEBUG = int(os.environ.get("DEBUG", default=0))
+# DEBUG = int(os.environ.get("DEBUG", default=0))
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bookstore-app-api-738d721992b2.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',
+                 'bookstore-app-api-738d721992b2.herokuapp.com']
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
