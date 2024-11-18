@@ -1,6 +1,7 @@
 import json
 
 from django.urls import reverse
+# import token models
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
@@ -16,7 +17,9 @@ class TestProductViewSet(APITestCase):
     # criando um objeto
     def setUp(self):
         self.user = UserFactory()
+        # cria um token
         token = Token.objects.create(user=self.user)
+        # salvando o token gerado
         token.save()
         # objeto product
         self.product = ProductFactory(
@@ -25,9 +28,12 @@ class TestProductViewSet(APITestCase):
         )
 
     def test_get_all_product(self):
+        # esta criando um token para o usuario criado eu self.user
         token = Token.objects.get(user__username=self.user.username)
+        # adicionando informações para o self.client
+        # colocando o token no authorization para ter a permição de fazer a requisição
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        # requisição usando o basename
+        # usando o self.client para fazer requisição usando o basename
         response = self.client.get(
             reverse('product-list', kwargs={'version': 'v1'})
         )
@@ -55,7 +61,8 @@ class TestProductViewSet(APITestCase):
             'category_id': [category.id]
         })
 
-        # data é as informações que esta sendo enviada
+        # utilizando o delf.cliente que ja esta com authorization token
+        # fazendo um post, data é as informações que esta sendo enviada
         response = self.client.post(
             reverse('product-list', kwargs={'version': 'v1'}),
             data=data,
