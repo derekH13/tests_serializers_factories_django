@@ -17,9 +17,21 @@ class TestOrderViewSet(APITestCase):
     client = APIClient()
 
     # criando todos os objetos
+    def setUp(self):
+        self.category = CategoryFactory(title="technology")
+        self.product = ProductFactory(
+            # passando uma lista ([self.category])
+            title="mouse", price=100, category=[self.category]
+        )
+        # passando uma lista ([self.product])
+        self.order = OrderFactory(product=[self.product])
+        token = Token.objects.create(user=self.order.user)
+        token.save()
 
     def test_order(self):
-
+        token = Token.objects.get(user__username=self.order.user.username)
+        self.client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+        # fazendo uma requisição usando o name da url
         response = self.client.get(
             reverse("order-list", kwargs={"version": "v1"}))
 
