@@ -7,7 +7,11 @@ from order.serializers import OrderSerializer
 
 
 class OrderViewSet(ModelViewSet):
-
+    authentication_classes = [SessionAuthentication,
+                              BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderSerializer
+    # vai ser ordenado pelo id
     queryset = Order.objects.all().order_by("id")
 
     class Meta:
